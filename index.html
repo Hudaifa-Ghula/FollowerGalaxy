@@ -360,6 +360,18 @@
                 // Smooth transition would be nice, but jump is okay for now
                 camera.position.copy(newCamPos);
             }
+            
+            // Query Parameter Check
+            // Example: ?user=username
+            function checkQueryParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const userParam = urlParams.get('user');
+                if (userParam) {
+                    searchInput.value = userParam;
+                    // Wait a moment for scene to be ready (though synchronous here, logic safety)
+                    window.searchUser();
+                }
+            }
 
             function animate() {
                 requestAnimationFrame(animate);
@@ -376,8 +388,13 @@
 
                 renderer.render(scene, camera);
             }
-
+            
+            // Start Loop
             animate();
+            
+            // Check params after a short delay or immediately
+            setTimeout(checkQueryParams, 100);
+            
         </script>
     </body>
     </html>
